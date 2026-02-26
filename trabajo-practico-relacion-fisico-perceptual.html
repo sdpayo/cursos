@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <link rel="shortcut icon" href="images/icon.png" type="image/x-icon">
+    <meta name="description" content="Trabajo Práctico - Relación Físico Perceptual">
+    <title>Trabajo Práctico - Relación Físico Perceptual</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:700,400&amp;subset=cyrillic,latin,greek,vietnamese">
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/additional.css" type="text/css">
+    <style>
+      .tp-form-container {
+        background-color: #f9f9f9;
+        padding: 30px;
+        border-radius: 8px;
+        margin: 30px 0;
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+      }
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        box-sizing: border-box;
+      }
+      .form-group textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+      .form-group input:focus,
+      .form-group textarea:focus,
+      .form-group select:focus {
+        outline: none;
+        border-color: #a38f84;
+        box-shadow: 0 0 5px rgba(163, 143, 132, 0.3);
+      }
+      .submit-btn {
+        background-color: #a38f84;
+        color: white;
+        padding: 12px 30px;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      .submit-btn:hover {
+        background-color: #8b7668;
+      }
+      .submit-btn:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+      .success-message {
+        display: none;
+        background-color: #d4edda;
+        color: #155724;
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        border: 1px solid #c3e6cb;
+      }
+      .error-message {
+        display: none;
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        border: 1px solid #f5c6cb;
+      }
+      .exercise-container {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      .exercise-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #a38f84;
+        padding-bottom: 10px;
+      }
+      .audio-controls {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .audio-btn {
+        background-color: #a38f84;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+      }
+      .audio-btn:hover {
+        background-color: #8b7668;
+      }
+      .audio-btn:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+      .answer-group {
+        margin-top: 15px;
+        padding: 15px;
+        background-color: #f5f5f5;
+        border-radius: 4px;
+      }
+      .answer-option {
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+      }
+      .answer-option input[type="radio"] {
+        margin-right: 10px;
+        cursor: pointer;
+        width: auto;
+      }
+      .answer-option label {
+        margin-bottom: 0;
+        font-weight: normal;
+        cursor: pointer;
+        flex: 1;
+      }
+      .results-summary {
+        display: none;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        border: 2px solid #a38f84;
+      }
+      .results-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 15px;
+      }
+      .result-item {
+        margin-bottom: 15px;
+        padding: 12px;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      .result-correct {
+        background-color: #d4edda;
+        border-left: 4px solid #28a745;
+        color: #155724;
+      }
+      .result-incorrect {
+        background-color: #f8d7da;
+        border-left: 4px solid #dc3545;
+        color: #721c24;
+      }
+      .result-details {
+        margin-top: 8px;
+        font-size: 12px;
+        opacity: 0.9;
+        margin-left: 12px;
+        padding-left: 10px;
+        border-left: 2px solid;
+      }
+      .result-correct .result-details {
+        border-left-color: #28a745;
+      }
+      .result-incorrect .result-details {
+        border-left-color: #dc3545;
+      }
+      .score-display {
+        font-size: 18px;
+        font-weight: 600;
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 2px solid #a38f84;
+        color: #333;
+      }
+      .group-section {
+        background-color: #f0f0f0;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+      }
+      .group-title {
+        color: #333;
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-size: 16px;
+      }
+      .stimuli-values {
+        background-color: #fff;
+        padding: 12px;
+        border-radius: 4px;
+        margin-top: 8px;
+        font-size: 12px;
+        color: #666;
+        line-height: 1.6;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <section class="mbr-navbar mbr-navbar--freeze mbr-navbar--absolute mbr-navbar--sticky mbr-navbar--auto-collapse" id="ext_menu-24" data-rv-view="15">
+      <div class="mbr-navbar__section mbr-section">
+        <div class="mbr-section__container container">
+          <div class="mbr-navbar__container">
+            <div class="mbr-navbar__hamburger mbr-hamburger"><span class="mbr-hamburger__line"></span></div>
+            <div class="mbr-navbar__column mbr-navbar__menu">
+              <nav class="mbr-navbar__menu-box mbr-navbar__menu-box--inline-right">
+                <div class="mbr-navbar__column">
+                  <ul class="mbr-navbar__items mbr-navbar__items--right float-left mbr-buttons mbr-buttons--freeze mbr-buttons--right btn-decorator mbr-buttons--active mbr-buttons--only-links">
+                    <li class="mbr-navbar__item">
+                      <a class="mbr-buttons__link btn text-black" href="index.html">HOME</a>
+                    </li>
+                    <li class="mbr-navbar__item dropdown">
+                      <a class="mbr-buttons__link btn text-black dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" aria-haspopup="true">CURSOS <span class="caret"></span></a>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a href="clases.html">ACÚSTICA MUSICAL</a></li>
+                        <li><a href="#">OTROS</a></li>
+                      </ul>
+                    </li>
+                    <li class="mbr-navbar__item">
+                      <a class="mbr-buttons__link btn text-black" href="publications.html">PUBLICATIONS</a>
+                    </li>
+                    <li class="mbr-navbar__item">
+                      <a class="mbr-buttons__link btn text-black" href="teaching.html">TEACHING</a>
+                    </li>
+                    <li class="mbr-navbar__item">
+                      <a class="mbr-buttons__link btn text-black" href="students.html">STUDENTS</a>
+                    </li>
+                    <li class="mbr-navbar__item">
+                      <a class="mbr-buttons__link btn text-black" href="workshops-tutorials.html">WORKSHOPS/TUTORIALS</a>
+                    </li>
+                  </ul>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hero Section / Title -->
+    <section class="mbr-section mbr-section--relative mbr-after-navbar" id="msg-box4-16" data-rv-view="2" style="background-color: rgb(163, 143, 132); padding-top: 60px; padding-bottom: 60px;">
+      <div class="mbr-section__container container">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="mbr-header mbr-header--center mbr-header--wysiwyg" style="margin-bottom: 0;">
+              <h1 class="mbr-header__text" style="font-size: 3.5rem; color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">Trabajo Práctico</h1>
+              <p style="color: white; font-size: 1.3em; margin-top: 15px;">Relación Físico Perceptual</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Instructions Section -->
+    <section class="mbr-section mbr-section--relative" style="background-color: rgb(255, 255, 255); padding-top: 60px; padding-bottom: 40px;">
+      <div class="mbr-section__container container">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="mbr-header mbr-header--center mbr-header--wysiwyg">
+              <h3 class="mbr-header__text">Actividades</h3>
+            </div>
+            <div class="mbr-article mbr-article--auto-align mbr-article--wysiwyg">
+              <p style="margin-top: 20px;">
+                En este trabajo práctico vas a escuchar <strong>sinusoides</strong> (ondas sonoras puras) con distintas 
+                <strong>frecuencias</strong> e <strong>intensidades</strong>. Algunos ejercicios tienen 2 tonos y otros tienen 3. Tu tarea es:<br>
+                <br>
+                1. <strong>Escuchar todos los tonos</strong> presionando los botones de reproducción<br>
+                2. <strong>Comparar sus características</strong> físicas<br>
+                3. <strong>Responder las preguntas</strong> sobre cuál tiene mayor frecuencia, mayor intensidad, etc.<br>
+                <br>
+                <em>Recuerda: La frecuencia está relacionada con la <strong>altura</strong> del sonido (más agudo o grave), 
+                y la intensidad está relacionada con la <strong>sonoridad</strong> (más fuerte o débil).</em>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Form Section -->
+    <section class="mbr-section mbr-section--relative" style="background-color: rgb(255, 255, 255); padding-top: 40px; padding-bottom: 60px;">
+      <div class="mbr-section__container container">
+        <div class="row">
+          <div class="col-sm-8 col-sm-offset-2">
+            
+            <div id="successMessage" class="success-message">
+              ✓ ¡Respuestas guardadas exitosamente!
+            </div>
+            
+            <div id="errorMessage" class="error-message">
+              ✗ Hubo un error al guardar. Por favor, intenta nuevamente.
+            </div>
+
+            <div id="resultsSummary" class="results-summary">
+              <div class="results-title">Resultados de tu evaluación:</div>
+              <div id="resultsList" style="max-height: 500px; overflow-y: auto; margin-bottom: 15px;"></div>
+              <div class="score-display" id="scoreDisplay"></div>
+            </div>
+
+            <form id="tpForm" class="tp-form-container" data-sheet-name="Relacion Fisico Perceptual">
+              
+              <!-- DATOS PERSONALES -->
+              <h4 style="margin-bottom: 20px; color: #333; border-bottom: 2px solid #a38f84; padding-bottom: 10px;">Datos Personales</h4>
+
+              <div class="form-group">
+                <label for="nombre">Nombre Completo *</label>
+                <input type="text" id="nombre" name="nombre" required>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" required>
+              </div>
+
+              <div class="form-group">
+                <label for="carrera">Carrera *</label>
+                <select id="carrera" name="carrera" required>
+                  <option value="">Seleccione una opción</option>
+                  <option value="ESM Instrumentos">Prof. Ed. Sup de Música con Orientación Instrumentos - ESM 6003</option>
+                  <option value="ESM Educación Musical">Prof. Ed. Sup de Música con Orientación Educación Musical - ESM 6003</option>
+                  <option value="UCASAL">Lic. En Artes Musicales - UCASAL</option>
+                </select>
+              </div>
+
+              <!-- PARTE 1: Ejercicios con 2 sonidos (10) -->
+              <div class="group-section">
+                <h4 class="group-title">Parte 1: Comparación de 2 Tonos (Ejercicios 1-10)</h4>
+                <div id="exercises-2tones"></div>
+              </div>
+
+              <!-- PARTE 2: Ejercicios con 3 sonidos (10) -->
+              <div class="group-section">
+                <h4 class="group-title">Parte 2: Comparación de 3 Tonos (Ejercicios 11-20)</h4>
+                <div id="exercises-3tones"></div>
+              </div>
+
+              <div style="text-align: center; margin-top: 30px;">
+                <button type="submit" class="submit-btn">Enviar Respuestas</button>
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="scripts/jquery.min.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
+    <script src="scripts/script.js"></script>
+
+    <script>
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      let currentOscillators = [];
+      let currentGains = [];
+      let stimuliOrder = {}; // Store which stim is A, B, C for each exercise
+
+      // Define base configs with metadata
+      const baseConfigs = {
+        ex1: [
+          { frequency: 300, amplitude: 0.2 },
+          { frequency: 650, amplitude: 0.2 }
+        ],
+        ex2: [
+          { frequency: 350, amplitude: 0.2 },
+          { frequency: 780, amplitude: 0.2 }
+        ],
+        ex3: [
+          { frequency: 400, amplitude: 0.15 },
+          { frequency: 440, amplitude: 0.3 }
+        ],
+        ex4: [
+          { frequency: 500, amplitude: 0.1 },
+          { frequency: 500, amplitude: 0.25 }
+        ],
+        ex5: [
+          { frequency: 280, amplitude: 0.2 },
+          { frequency: 580, amplitude: 0.2 }
+        ],
+        ex6: [
+          { frequency: 320, amplitude: 0.3 },
+          { frequency: 320, amplitude: 0.15 }
+        ],
+        ex7: [
+          { frequency: 450, amplitude: 0.2 },
+          { frequency: 450, amplitude: 0.08 }
+        ],
+        ex8: [
+          { frequency: 200, amplitude: 0.2 },
+          { frequency: 500, amplitude: 0.2 }
+        ],
+        ex9: [
+          { frequency: 550, amplitude: 0.25 },
+          { frequency: 550, amplitude: 0.1 }
+        ],
+        ex10: [
+          { frequency: 380, amplitude: 0.12 },
+          { frequency: 380, amplitude: 0.28 }
+        ],
+        ex11: [
+          { frequency: 220, amplitude: 0.2 },
+          { frequency: 660, amplitude: 0.2 },
+          { frequency: 440, amplitude: 0.2 }
+        ],
+        ex12: [
+          { frequency: 500, amplitude: 0.25 },
+          { frequency: 500, amplitude: 0.08 },
+          { frequency: 500, amplitude: 0.15 }
+        ],
+        ex13: [
+          { frequency: 1200, amplitude: 0.2 },
+          { frequency: 400, amplitude: 0.2 },
+          { frequency: 250, amplitude: 0.2 }
+        ],
+        ex14: [
+          { frequency: 600, amplitude: 0.1 },
+          { frequency: 600, amplitude: 0.3 },
+          { frequency: 600, amplitude: 0.2 }
+        ],
+        ex15: [
+          { frequency: 300, amplitude: 0.2 },
+          { frequency: 700, amplitude: 0.2 },
+          { frequency: 500, amplitude: 0.2 }
+        ],
+        ex16: [
+          { frequency: 180, amplitude: 0.2 },
+          { frequency: 360, amplitude: 0.2 },
+          { frequency: 720, amplitude: 0.2 }
+        ],
+        ex17: [
+          { frequency: 550, amplitude: 0.22 },
+          { frequency: 550, amplitude: 0.05 },
+          { frequency: 550, amplitude: 0.18 }
+        ],
+        ex18: [
+          { frequency: 480, amplitude: 0.2 },
+          { frequency: 480, amplitude: 0.15 },
+          { frequency: 480, amplitude: 0.32 }
+        ],
+        ex19: [
+          { frequency: 260, amplitude: 0.2 },
+          { frequency: 520, amplitude: 0.2 },
+          { frequency: 780, amplitude: 0.2 }
+        ],
+        ex20: [
+          { frequency: 420, amplitude: 0.18 },
+          { frequency: 420, amplitude: 0.25 },
+          { frequency: 420, amplitude: 0.09 }
+        ]
+      };
+
+      const correctAnswers = {
+        ex1: 'B', ex2: 'B', ex3: 'B', ex4: 'B', ex5: 'B', 
+        ex6: 'A', ex7: 'A', ex8: 'B', ex9: 'A', ex10: 'B',
+        ex11: 'max_freq', ex11b: 'min_freq', 
+        ex12: 'max_int', ex12b: 'min_int', 
+        ex13: 'max_freq', ex13b: 'min_freq', 
+        ex14: 'max_int', ex14b: 'min_int', 
+        ex15: 'max_freq', ex15b: 'min_freq', 
+        ex16: 'max_int', ex16b: 'min_int', 
+        ex17: 'max_freq', ex17b: 'min_freq', 
+        ex18: 'max_int', ex18b: 'min_int', 
+        ex19: 'max_freq', ex19b: 'min_freq', 
+        ex20: 'max_int', ex20b: 'min_int'
+      };
+
+      // Shuffle array
+      function shuffle(array) {
+        const arr = [...array];
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+      }
+
+      // Get randomized order for an exercise
+      function getRandomOrder(exerciseId) {
+        const configs = baseConfigs[exerciseId];
+        const indices = Array.from({length: configs.length}, (_, i) => i);
+        const shuffled = shuffle(indices);
+        
+        stimuliOrder[exerciseId] = {};
+        shuffled.forEach((origIdx, position) => {
+          const letter = String.fromCharCode(65 + position); // A, B, C
+          stimuliOrder[exerciseId][letter] = origIdx;
+        });
+        
+        return shuffled;
+      }
+
+      function playAudio(exerciseId, letter) {
+        const origIdx = stimuliOrder[exerciseId][letter];
+        const config = baseConfigs[exerciseId][origIdx];
+        
+        currentOscillators.forEach(osc => osc.stop());
+        currentOscillators = [];
+        currentGains = [];
+
+        const oscillator = audioContext.createOscillator();
+        oscillator.type = 'sine';
+        oscillator.frequency.value = config.frequency;
+
+        const gain = audioContext.createGain();
+        gain.gain.setValueAtTime(config.amplitude, audioContext.currentTime);
+
+        oscillator.connect(gain);
+        gain.connect(audioContext.destination);
+        oscillator.start(audioContext.currentTime);
+
+        currentOscillators.push(oscillator);
+        currentGains.push(gain);
+
+        const duration = 2;
+        const stopTime = audioContext.currentTime + duration;
+        gain.gain.setValueAtTime(config.amplitude, stopTime - 0.1);
+        gain.gain.linearRampToValueAtTime(0, stopTime);
+        oscillator.stop(stopTime);
+      }
+
+      function getStimValues(exerciseId, letter) {
+        const origIdx = stimuliOrder[exerciseId][letter];
+        const config = baseConfigs[exerciseId][origIdx];
+        return config;
+      }
+
+      function generateExercisesHTML() {
+        let html2tones = '';
+        let html3tones = '';
+
+        // Exercises 1-10 (2 tones)
+        for (let i = 1; i <= 10; i++) {
+          getRandomOrder(`ex${i}`);
+          const questionType = i % 2 === 1 ? 'mayor' : 'menor';
+          const question = questionType === 'mayor' ? '¿Cuál tiene MAYOR' : '¿Cuál tiene MENOR';
+          const attrType = i <= 5 || i === 8 ? 'frecuencia' : 'intensidad';
+          const finalQ = `${question} ${attrType}?`;
+          
+          html2tones += `
+            <div class="exercise-container">
+              <div class="exercise-title">Ejercicio ${i}: ${attrType.charAt(0).toUpperCase() + attrType.slice(1)}</div>
+              <div class="audio-controls">
+                <button type="button" class="audio-btn" onclick="playAudio('ex${i}', 'A')">▶ A</button>
+                <button type="button" class="audio-btn" onclick="playAudio('ex${i}', 'B')">▶ B</button>
+              </div>
+              <div class="answer-group">
+                <label style="font-weight: 600; margin-bottom: 12px;">${finalQ} *</label>
+                <div class="answer-option"><input type="radio" id="ex${i}_a" name="ex${i}" value="A" required><label for="ex${i}_a">A</label></div>
+                <div class="answer-option"><input type="radio" id="ex${i}_b" name="ex${i}" value="B"><label for="ex${i}_b">B</label></div>
+                <div class="answer-option"><input type="radio" id="ex${i}_eq" name="ex${i}" value="iguales"><label for="ex${i}_eq">Son iguales</label></div>
+              </div>
+            </div>
+          `;
+        }
+
+        // Exercises 11-20 (3 tones)
+        const questions3 = [
+          { id: 'ex11', type: 'freq', q1: 'MAYOR', q2: 'MENOR' },
+          { id: 'ex12', type: 'int', q1: 'MAYOR', q2: 'MENOR' },
+          { id: 'ex13', type: 'freq', q1: 'MENOR', q2: 'MAYOR' },
+          { id: 'ex14', type: 'int', q1: 'MENOR', q2: 'MAYOR' },
+          { id: 'ex15', type: 'freq', q1: 'MAYOR', q2: 'MENOR' },
+          { id: 'ex16', type: 'int', q1: 'MAYOR', q2: 'MENOR' },
+          { id: 'ex17', type: 'freq', q1: 'MENOR', q2: 'MAYOR' },
+          { id: 'ex18', type: 'int', q1: 'MENOR', q2: 'MAYOR' },
+          { id: 'ex19', type: 'freq', q1: 'MAYOR', q2: 'MENOR' },
+          { id: 'ex20', type: 'int', q1: 'MENOR', q2: 'MAYOR' }
+        ];
+
+        questions3.forEach((q, idx) => {
+          const exNum = idx + 11;
+          const attrName = q.type === 'freq' ? 'frecuencia' : 'intensidad';
+          getRandomOrder(q.id);
+          
+          const firstSuffix = q.type === 'freq' ? 'frecuencia' : 'intensidad';
+          const secondSuffix = q.type === 'freq' ? 'frecuencia' : 'intensidad';
+
+          html3tones += `
+            <div class="exercise-container">
+              <div class="exercise-title">Ejercicio ${exNum}: ${attrName.charAt(0).toUpperCase() + attrName.slice(1)} (3 Tonos)</div>
+              <div class="audio-controls">
+                <button type="button" class="audio-btn" onclick="playAudio('${q.id}', 'A')">▶ A</button>
+                <button type="button" class="audio-btn" onclick="playAudio('${q.id}', 'B')">▶ B</button>
+                <button type="button" class="audio-btn" onclick="playAudio('${q.id}', 'C')">▶ C</button>
+              </div>
+              <div class="answer-group">
+                <label style="font-weight: 600; margin-bottom: 12px;">¿Cuál tiene ${q.q1} ${firstSuffix}? *</label>
+                <div class="answer-option"><input type="radio" id="${q.id}_a" name="${q.id}" value="A" required><label for="${q.id}_a">A</label></div>
+                <div class="answer-option"><input type="radio" id="${q.id}_b" name="${q.id}" value="B"><label for="${q.id}_b">B</label></div>
+                <div class="answer-option"><input type="radio" id="${q.id}_c" name="${q.id}" value="C"><label for="${q.id}_c">C</label></div>
+                <div class="answer-option"><input type="radio" id="${q.id}_eq" name="${q.id}" value="iguales"><label for="${q.id}_eq">Son todos iguales</label></div>
+              </div>
+              <div class="answer-group">
+                <label style="font-weight: 600; margin-bottom: 12px;">¿Cuál tiene ${q.q2} ${secondSuffix}? *</label>
+                <div class="answer-option"><input type="radio" id="${q.id}b_a" name="${q.id}b" value="A" required><label for="${q.id}b_a">A</label></div>
+                <div class="answer-option"><input type="radio" id="${q.id}b_b" name="${q.id}b" value="B"><label for="${q.id}b_b">B</label></div>
+                <div class="answer-option"><input type="radio" id="${q.id}b_c" name="${q.id}b" value="C"><label for="${q.id}b_c">C</label></div>
+                <div class="answer-option"><input type="radio" id="${q.id}b_eq" name="${q.id}b" value="iguales"><label for="${q.id}b_eq">Son todos iguales</label></div>
+              </div>
+            </div>
+          `;
+        });
+
+        document.getElementById('exercises-2tones').innerHTML = html2tones;
+        document.getElementById('exercises-3tones').innerHTML = html3tones;
+      }
+
+      function getCorrectAnswer(exerciseId) {
+        const baseId = exerciseId.replace('b', '');
+        if (exerciseId.endsWith('b')) {
+          // Second question
+          const configs = baseConfigs[baseId];
+          if (correctAnswers[exerciseId] === 'max_freq') {
+            const maxFreq = Math.max(...configs.map(c => c.frequency));
+            return Object.entries(stimuliOrder[baseId]).find(([_, idx]) => configs[idx].frequency === maxFreq)[0];
+          } else if (correctAnswers[exerciseId] === 'min_freq') {
+            const minFreq = Math.min(...configs.map(c => c.frequency));
+            return Object.entries(stimuliOrder[baseId]).find(([_, idx]) => configs[idx].frequency === minFreq)[0];
+          } else if (correctAnswers[exerciseId] === 'max_int') {
+            const maxInt = Math.max(...configs.map(c => c.amplitude));
+            return Object.entries(stimuliOrder[baseId]).find(([_, idx]) => configs[idx].amplitude === maxInt)[0];
+          } else if (correctAnswers[exerciseId] === 'min_int') {
+            const minInt = Math.min(...configs.map(c => c.amplitude));
+            return Object.entries(stimuliOrder[baseId]).find(([_, idx]) => configs[idx].amplitude === minInt)[0];
+          }
+        } else {
+          // First question
+          const configs = baseConfigs[exerciseId];
+          if (correctAnswers[exerciseId] === 'max_freq') {
+            const maxFreq = Math.max(...configs.map(c => c.frequency));
+            return Object.entries(stimuliOrder[exerciseId]).find(([_, idx]) => configs[idx].frequency === maxFreq)[0];
+          } else if (correctAnswers[exerciseId] === 'min_freq') {
+            const minFreq = Math.min(...configs.map(c => c.frequency));
+            return Object.entries(stimuliOrder[exerciseId]).find(([_, idx]) => configs[idx].frequency === minFreq)[0];
+          } else if (correctAnswers[exerciseId] === 'max_int') {
+            const maxInt = Math.max(...configs.map(c => c.amplitude));
+            return Object.entries(stimuliOrder[exerciseId]).find(([_, idx]) => configs[idx].amplitude === maxInt)[0];
+          } else if (correctAnswers[exerciseId] === 'min_int') {
+            const minInt = Math.min(...configs.map(c => c.amplitude));
+            return Object.entries(stimuliOrder[exerciseId]).find(([_, idx]) => configs[idx].amplitude === minInt)[0];
+          } else if (correctAnswers[exerciseId] === 'iguales') {
+            return 'iguales';
+          } else {
+            return correctAnswers[exerciseId];
+          }
+        }
+      }
+
+      generateExercisesHTML();
+
+      document.getElementById('tpForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Collect all question IDs
+        const allQuestionIds = [];
+        for (let i = 1; i <= 10; i++) allQuestionIds.push(`ex${i}`);
+        const questions3 = ['ex11', 'ex12', 'ex13', 'ex14', 'ex15', 'ex16', 'ex17', 'ex18', 'ex19', 'ex20'];
+        questions3.forEach(q => {
+          allQuestionIds.push(q);
+          allQuestionIds.push(q + 'b');
+        });
+
+        let allAnswered = true;
+        for (let questionId of allQuestionIds) {
+          if (!document.querySelector(`input[name="${questionId}"]:checked`)) {
+            allAnswered = false;
+            break;
+          }
+        }
+
+        if (!allAnswered) {
+          alert('Por favor, responde todas las preguntas antes de enviar.');
+          return;
+        }
+
+        let correct = 0;
+        let total = 0;
+        const results = [];
+
+        for (let questionId of allQuestionIds) {
+          const selected = document.querySelector(`input[name="${questionId}"]:checked`);
+          const correctAnswer = getCorrectAnswer(questionId);
+          const isCorrect = selected.value === correctAnswer;
+          
+          if (isCorrect) correct++;
+          total++;
+
+          // Get stimulus values
+          const baseId = questionId.replace('b', '');
+          const stimuliInfo = [];
+          const configs = baseConfigs[baseId];
+          ['A', 'B', 'C'].slice(0, configs.length).forEach(letter => {
+            const values = getStimValues(baseId, letter);
+            stimuliInfo.push(`${letter}: ${values.frequency} Hz, Ampl: ${values.amplitude.toFixed(2)}`);
+          });
+
+          results.push({
+            exercise: questionId,
+            isCorrect: isCorrect,
+            userAnswer: selected.value,
+            correctAnswer: correctAnswer,
+            stimuli: stimuliInfo
+          });
+        }
+
+        displayResults(results, correct, total);
+        submitToSheet(results, correct, total);
+      });
+
+      function displayResults(results, correct, total) {
+        const resultsList = document.getElementById('resultsList');
+        resultsList.innerHTML = '';
+
+        results.forEach((result) => {
+          const resultDiv = document.createElement('div');
+          resultDiv.className = `result-item ${result.isCorrect ? 'result-correct' : 'result-incorrect'}`;
+          const baseId = result.exercise.replace('b', '');
+          const displayName = result.exercise.endsWith('b') ? result.exercise.slice(0, -1) + ' (2)' : result.exercise + ' (1)';
+          
+          resultDiv.innerHTML = `
+            <strong>${displayName}:</strong> ${result.isCorrect ? '✓' : '✗'} 
+            (Tu respuesta: <strong>${result.userAnswer}</strong>${!result.isCorrect ? `, Correcta: <strong>${result.correctAnswer}</strong>` : ''})
+            <div class="stimuli-values">
+              <strong>Valores de los estímulos:</strong><br>
+              ${result.stimuli.join('<br>')}
+            </div>
+          `;
+          resultsList.appendChild(resultDiv);
+        });
+
+        const percentage = Math.round((correct / total) * 100);
+        document.getElementById('scoreDisplay').innerHTML = `<strong>Puntuación: ${correct}/${total} (${percentage}%)</strong>`;
+        document.getElementById('resultsSummary').style.display = 'block';
+        window.scrollTo({ top: document.getElementById('resultsSummary').offsetTop - 100, behavior: 'smooth' });
+      }
+
+      function submitToSheet(results, correct, total) {
+        const submitBtn = document.querySelector('.submit-btn');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Enviando...';
+
+        // Preparar datos para enviar
+        const formData = {
+          sheetName: 'Relacion Fisico Perceptual',
+          nombre: document.getElementById('nombre').value,
+          email: document.getElementById('email').value,
+          carrera_corta: document.getElementById('carrera').value,
+          total_correctas: correct
+        };
+
+        // Agregar cada respuesta como 1 (correcto) o 0 (incorrecto)
+        results.forEach((result) => {
+          formData[result.exercise] = result.isCorrect ? 1 : 0;
+        });
+
+        // URL del Web App de Google Sheets (reemplazar con tu URL)
+        const scriptURL = 'YOUR_SCRIPT_ID'; // ← REEMPLAZAR CON TU URL DE GOOGLE APPS SCRIPT
+
+        fetch(scriptURL, {
+          method: 'POST',
+          body: JSON.stringify(formData),
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          mode: 'no-cors'
+        })
+        .then(() => {
+          document.getElementById('successMessage').style.display = 'block';
+          document.getElementById('errorMessage').style.display = 'none';
+          submitBtn.textContent = 'Enviar Respuestas';
+          submitBtn.disabled = false;
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          document.getElementById('errorMessage').style.display = 'block';
+          document.getElementById('successMessage').style.display = 'none';
+          submitBtn.textContent = 'Enviar Respuestas';
+          submitBtn.disabled = false;
+        });
+      }
+    </script>
+
+  </body>
+</html>

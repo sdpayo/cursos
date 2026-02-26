@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <link rel="shortcut icon" href="images/icon.png" type="image/x-icon">
+    <meta name="description" content="Trabajo Práctico - Ejemplo">
+    <title>Trabajo Práctico - Ejemplo</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:700,400&amp;subset=cyrillic,latin,greek,vietnamese">
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/additional.css" type="text/css">
+    <style>
+      .tp-form-container {
+        background-color: #f9f9f9;
+        padding: 30px;
+        border-radius: 8px;
+        margin: 30px 0;
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+      }
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+      }
+      .form-group textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+      .form-group input:focus,
+      .form-group textarea:focus,
+      .form-group select:focus {
+        outline: none;
+        border-color: #a38f84;
+        box-shadow: 0 0 5px rgba(163, 143, 132, 0.3);
+      }
+      .submit-btn {
+        background-color: #a38f84;
+        color: white;
+        padding: 12px 30px;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      .submit-btn:hover {
+        background-color: #8b7668;
+      }
+      .submit-btn:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+      .success-message {
+        display: none;
+        background-color: #d4edda;
+        color: #155724;
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        border: 1px solid #c3e6cb;
+      }
+      .error-message {
+        display: none;
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        border: 1px solid #f5c6cb;
+      }
+      .video-container {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%; /* Aspect ratio 16:9 */
+        height: 0;
+        overflow: hidden;
+        margin-bottom: 15px;
+      }
+      .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <section class="mbr-navbar mbr-navbar--freeze mbr-navbar--absolute mbr-navbar--sticky mbr-navbar--auto-collapse" id="ext_menu-24" data-rv-view="15">
+      <div class="mbr-navbar__section mbr-section">
+        <div class="mbr-section__container container">
+          <div class="mbr-navbar__container">
+            <div class="mbr-navbar__hamburger mbr-hamburger"><span class="mbr-hamburger__line"></span></div>
+            <div class="mbr-navbar__column mbr-navbar__menu">
+              <nav class="mbr-navbar__menu-box mbr-navbar__menu-box--inline-right">
+                <div class="mbr-navbar__column">
+                  <ul class="mbr-navbar__items mbr-navbar__items--right float-left mbr-buttons mbr-buttons--freeze mbr-buttons--right btn-decorator mbr-buttons--active mbr-buttons--only-links">
+                    <li class="mbr-navbar__item">
+                      <a class="mbr-buttons__link btn text-black" href="index.html">HOME</a>
+                    </li>
+                    <li class="mbr-navbar__item dropdown">
+                      <a class="mbr-buttons__link btn text-black dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" aria-haspopup="true">CURSOS <span class="caret"></span></a>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a href="clases.html">ACÚSTICA MUSICAL</a></li>
+                        <li><a href="#">OTROS</a></li>
+                      </ul>
+                    </li>
+                    <li class="mbr-navbar__item">
+                      <a class="mbr-buttons__link btn text-black" href="publications.html">PUBLICATIONS</a>
+                    </li>
+                    <li class="mbr-navbar__item">
+                      <a class="mbr-buttons__link btn text-black" href="teaching.html">TEACHING</a>
+                    </li>
+                    <li class="mbr-navbar__item">
+                      <a class="mbr-buttons__link btn text-black" href="students.html">STUDENTS</a>
+                    </li>
+                    <li class="mbr-navbar__item">
+                      <a class="mbr-buttons__link btn text-black" href="workshops-tutorials.html">WORKSHOPS/TUTORIALS</a>
+                    </li>
+                  </ul>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hero Section / Title -->
+    <section class="mbr-section mbr-section--relative mbr-after-navbar" id="msg-box4-16" data-rv-view="2" style="background-color: rgb(163, 143, 132); padding-top: 60px; padding-bottom: 60px;">
+      <div class="mbr-section__container container">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="mbr-header mbr-header--center mbr-header--wysiwyg" style="margin-bottom: 0;">
+              <h1 class="mbr-header__text" style="font-size: 3.5rem; color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">Trabajo Práctico</h1>
+              <p style="color: white; font-size: 1.3em; margin-top: 15px;">Cadenas Acústicas</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Instructions Section -->
+    <section class="mbr-section mbr-section--relative" style="background-color: rgb(255, 255, 255); padding-top: 60px; padding-bottom: 40px;">
+      <div class="mbr-section__container container">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="mbr-header mbr-header--center mbr-header--wysiwyg">
+              </p><h3 class="mbr-header__text">Actividades</h3>
+            </div>
+            <div class="mbr-article mbr-article--auto-align mbr-article--wysiwyg">
+                <p style="margin-top: 20px;"></p>
+              <p>
+                Se van a presentar tres videos con situaciones especificas en las que se dan distintas Cadenas Acústicas. 
+                Miralas con detenimiento y pensá en el modo en que se van dando, es decir, que roles cumplen los distintos actores.
+                Respondete a estas preguntas:<br>
+                <br>
+                - ¿Cuales son todas las fuentes que se presentan?<br>
+                - ¿Hay elementos que interfieren en los canales de comunicación? ¿De qué manera?<br>
+                - ¿Qué receptores están presentes y cómo reciben la información?<br>
+                - ¿Cuantas posibles cadenas acústicas se pueden identificar? ¿Cómo estan compuestas?<br>
+                <br>
+                Una vez que hayas respondido estas preguntas, completa los cuadros debajo con un texto descriptivo.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Form Section -->
+    <section class="mbr-section mbr-section--relative" style="background-color: rgb(255, 255, 255); padding-top: 40px; padding-bottom: 60px;">
+      <div class="mbr-section__container container">
+        <div class="row">
+          <div class="col-sm-8 col-sm-offset-2">
+            
+            <div id="successMessage" class="success-message">
+              ✓ ¡Respuestas guardadas exitosamente!
+            </div>
+            
+            <div id="errorMessage" class="error-message">
+              ✗ Hubo un error al guardar. Por favor, intenta nuevamente.
+            </div>
+
+            <form id="tpForm" class="tp-form-container" data-sheet-name="Cadena Acustica">
+              
+              <!-- DATOS DE ENTRADA -->
+              <h4 style="margin-bottom: 20px; color: #333; border-bottom: 2px solid #a38f84; padding-bottom: 10px;">Datos Personales</h4>
+
+              <div class="form-group">
+                <label for="nombre">Nombre Completo *</label>
+                <input type="text" id="nombre" name="nombre" required>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" required>
+              </div>
+
+              <div class="form-group">
+                <label for="carrera">Carrera *</label>
+                <select id="carrera" name="carrera" required>
+                  <option value="">Seleccione una opción</option>
+                  <option value="ESM Instrumentos">Prof. Ed. Sup de Música con Orientación Instrumentos - ESM 6003</option>
+                  <option value="ESM Educación Musical">Prof. Ed. Sup de Música con Orientación Educación Musical - ESM 6003</option>
+                  <option value="UCASAL">Lic. En Artes Musicales - UCASAL</option>
+                </select>
+              </div>
+
+              <!-- PREGUNTAS -->
+              <h4 style="margin-top: 30px; margin-bottom: 20px; color: #333; border-bottom: 2px solid #a38f84; padding-bottom: 10px;">Preguntas</h4>
+
+              <div class="form-group">
+                <label for="Espantapajaros_Girondo">Espantapájaros 21 - Oliverio Girondo</label><br>
+                <div class="video-container">
+                  <iframe src="https://www.youtube.com/embed/TKRqeJJl1AQ" title="ESPANTAPAJARO 21 - Oliverio Girondo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <textarea id="Espantapajaros_Girondo" name="Espantapajaros_Girondo" placeholder="Escribe tu respuesta aquí..." required></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="Cronicas_Ferreteras">Crónicas Ferreteras: Idealistas del Pegar</label><br>
+                <div class="video-container">
+                  <iframe width="560" height="315" src="https://www.youtube.com/embed/L3Z0XgGWwfc?si=CMgvSjUVWR5zmF6K&amp;controls=1&amp;start=50" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <textarea id="Cronicas_Ferreteras" name="Cronicas_Ferreteras" placeholder="Escribe tu respuesta aquí..." required></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="Ni_una_sola_palabra_de_amor">Ni una sola palabra de amor</label><br>
+                <div class="video-container">
+                  <iframe width="560" height="315" src="https://www.youtube.com/embed/D7RWuR2fG3Y?si=6zHnpFmArF-Yui8l&amp;start=19" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <textarea id="Ni_una_sola_palabra_de_amor" name="Ni_una_sola_palabra_de_amor" placeholder="Escribe tu respuesta aquí..." required></textarea>
+              </div>
+
+              <div style="text-align: center; margin-top: 30px;">
+                <button type="submit" class="submit-btn">Guardar Respuestas</button>
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="scripts/jquery.min.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
+    <script src="scripts/script.js"></script>
+
+  </body>
+</html>
