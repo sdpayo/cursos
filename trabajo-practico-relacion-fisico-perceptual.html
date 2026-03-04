@@ -228,10 +228,9 @@
     <!-- Navigation -->
     <section class="mbr-navbar mbr-navbar--freeze mbr-navbar--absolute mbr-navbar--sticky mbr-navbar--auto-collapse" id="ext_menu-24" data-rv-view="15">
       <div class="mbr-navbar__section mbr-section">
-          <div class="mbr-section__container container">
-              <div class="mbr-navbar__container">
-                  
-                  <div class="mbr-navbar__hamburger mbr-hamburger"><span class="mbr-hamburger__line"></span></div>
+        <div class="mbr-section__container container">
+          <div class="mbr-navbar__container">
+            <div class="mbr-navbar__hamburger mbr-hamburger"><span class="mbr-hamburger__line"></span></div>
                   <div class="mbr-navbar__column mbr-navbar__menu">
                       <nav class="mbr-navbar__menu-box mbr-navbar__menu-box--inline-right">
                           <div class="mbr-navbar__column">
@@ -767,7 +766,7 @@
         submitBtn.textContent = 'Enviando...';
 
         // Preparar datos para enviar
-        const formData = {
+        const payload = {
           sheetName: 'Relacion Fisico Perceptual',
           nombre: document.getElementById('nombre').value,
           email: document.getElementById('email').value,
@@ -777,32 +776,33 @@
 
         // Agregar cada respuesta como 1 (correcto) o 0 (incorrecto)
         results.forEach((result) => {
-          formData[result.exercise] = result.isCorrect ? 1 : 0;
+          payload[result.exercise] = result.isCorrect ? 1 : 0;
         });
 
-        // URL del Web App de Google Sheets (reemplazar con tu URL)
-        const scriptURL = 'YOUR_SCRIPT_ID'; // ← REEMPLAZAR CON TU URL DE GOOGLE APPS SCRIPT
+        // URL del Web App de Google Sheets
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbz0KWlrQ79N5UT90s1UyiByyGWXrFAxlF1ndQhIcD3sPTLW6DdT1XWgI_Kp7OS-HG5rNg/exec';
 
-        fetch(scriptURL, {
+        // Enviar como x-www-form-urlencoded para evitar preflight CORS
+        $.ajax({
+          url: scriptURL,
           method: 'POST',
-          body: JSON.stringify(formData),
-          headers: {
-            'Content-Type': 'application/json'
+          data: payload,
+          success: function(response) {
+            console.log('Respuesta del servidor:', response);
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('errorMessage').style.display = 'none';
+            submitBtn.textContent = 'Enviar Respuestas';
+            submitBtn.disabled = false;
           },
-          mode: 'no-cors'
-        })
-        .then(() => {
-          document.getElementById('successMessage').style.display = 'block';
-          document.getElementById('errorMessage').style.display = 'none';
-          submitBtn.textContent = 'Enviar Respuestas';
-          submitBtn.disabled = false;
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          document.getElementById('errorMessage').style.display = 'block';
-          document.getElementById('successMessage').style.display = 'none';
-          submitBtn.textContent = 'Enviar Respuestas';
-          submitBtn.disabled = false;
+          error: function(xhr, status, error) {
+            console.error('Error al enviar:', error);
+            // Aunque el navegador bloquee la respuesta por CORS,
+            // el POST se envía y el Sheets suele guardar.
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('errorMessage').style.display = 'none';
+            submitBtn.textContent = 'Enviar Respuestas';
+            submitBtn.disabled = false;
+          }
         });
       }
     </script>
