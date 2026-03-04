@@ -6,8 +6,7 @@ A = 1
 phi = np.pi / 3
 t = np.linspace(0, 2*np.pi*2.2, 800)   # time in radians (later mapped to ms)
 y = A * np.sin(t)
-
- Define one cycle
+ # Define one cycle
 P = 2*np.pi
 mask_cycle = (t >= P) & (t <= 2*P)
 
