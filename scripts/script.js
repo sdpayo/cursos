@@ -1,3 +1,33 @@
+// Efecto de selección en imágenes de ondas
+$(document).ready(function() {
+    $(document).on("click", ".wave-img", function() {
+        var $img = $(this);
+        var $label = $img.closest("label");
+        var $input = $label.find("input[type=radio]");
+        var name = $input.attr("name");
+        // Desmarcar todas las imágenes del grupo
+        $("input[name='" + name + "']").each(function() {
+            $(this).closest("label").find(".wave-img").removeClass("selected");
+        });
+        // Marcar la imagen seleccionada
+        $img.addClass("selected");
+        $input.prop("checked", true);
+    });
+    // Para los botones de frecuencia
+    $(document).on("click", ".wave-freq", function() {
+        var $btn = $(this);
+        var $label = $btn.closest("label");
+        var $input = $label.find("input[type=radio]");
+        var name = $input.attr("name");
+        // Desmarcar todos los botones del grupo
+        $("input[name='" + name + "']").each(function() {
+            $(this).closest("label").find(".wave-freq").removeClass("selected");
+        });
+        // Marcar el botón seleccionado
+        $btn.addClass("selected");
+        $input.prop("checked", true);
+    });
+});
 (function($){
 
     $.extend($.easing, {

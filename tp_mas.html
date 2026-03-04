@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <link rel="shortcut icon" href="images/icon.png" type="image/x-icon">
+    <meta name="description" content="Cadena Acústica">
+    <title>Cadena Acústica</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:700,400&amp;subset=cyrillic,latin,greek,vietnamese">
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/additional.css" type="text/css">
+  </head>
+  <body>
+     <section class="mbr-navbar mbr-navbar--freeze mbr-navbar--absolute mbr-navbar--sticky mbr-navbar--auto-collapse" id="ext_menu-24" data-rv-view="15">
+      <div class="mbr-navbar__section mbr-section">
+        <div class="mbr-section__container container">
+          <div class="mbr-navbar__container">
+            <div class="mbr-navbar__hamburger mbr-hamburger"><span class="mbr-hamburger__line"></span></div>
+            <div class="mbr-navbar__column mbr-navbar__menu">
+              <nav class="mbr-navbar__menu-box mbr-navbar__menu-box--inline-right">
+                <div class="mbr-navbar__column">
+                  <ul class="mbr-navbar__items mbr-navbar__items--right float-left mbr-buttons mbr-buttons--freeze mbr-buttons--right btn-decorator mbr-buttons--active mbr-buttons--only-links">
+                    <li class="mbr-navbar__item">
+                      <a class="mbr-buttons__link btn text-black" href="index.html">HOME</a>
+                    </li>
+                    <li class="mbr-navbar__item">
+                      <a class="mbr-buttons__link btn text-black" href="clases.html">ACÚSTICA MUSICAL</a>
+                    </li>
+                    <li class="mbr-navbar__item">
+                      <a class="mbr-buttons__link btn text-black" href="#">OTROS</a>
+                    </li>
+                    <li class="mbr-navbar__item">
+                      <a class="mbr-buttons__link btn text-black" href="publications.html">PUBLICATIONS</a>
+                    </li>
+                    <li class="mbr-navbar__item">
+                      <a class="mbr-buttons__link btn text-black" href="teaching.html">TEACHING</a>
+                    </li>
+                    <li class="mbr-navbar__item">
+                      <a class="mbr-buttons__link btn text-black" href="students.html">STUDENTS</a>
+                    </li>
+                    <li class="mbr-navbar__item">
+                      <a class="mbr-buttons__link btn text-black" href="workshops-tutorials.html">WORKSHOPS/TUTORIALS</a>
+                    </li>
+                  </ul>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<html>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+        <link rel="shortcut icon" href="images/icon.png" type="image/x-icon">
+        <meta name="description" content="Trabajo Práctico - Comparación de Ondas Sinusoidales">
+        <title>Trabajo Práctico - Comparación de Ondas Sinusoidales</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:700,400&amp;subset=cyrillic,latin,greek,vietnamese">
+        <link rel="stylesheet" href="styles/bootstrap.min.css">
+        <link rel="stylesheet" href="styles/style.css">
+        <link rel="stylesheet" href="styles/additional.css" type="text/css">
+        <style>
+                        .wave-freq.selected {
+                            background-color: #a38f84 !important;
+                            color: #fff !important;
+                            border-color: #a38f84 !important;
+                            box-shadow: 0 0 8px #a38f8444;
+                        }
+            .tp-form-container {
+                background-color: #f9f9f9;
+                padding: 30px;
+                border-radius: 8px;
+                margin: 30px 0;
+            }
+            .wave-pair {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                margin-bottom: 0 !important;
+                padding-bottom: 0 !important;
+            }
+            .wave-option {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                margin-bottom: 0 !important;
+                padding-bottom: 0 !important;
+            }
+            .mb-3, .mb-4 {
+                margin-bottom: 28px !important;
+                padding-bottom: 0 !important;
+            }
+            .form-label {
+                margin-bottom: 12px !important;
+                font-weight: bold;
+                font-size: 1.15em;
+            }
+            label[style*="width:100%"], .wave-label {
+                margin-bottom: 0 !important;
+                padding-bottom: 0 !important;
+            }
+            img.wave-img {
+                display: block;
+                margin: 0 auto;
+                max-width: 100%;
+                height: auto;
+            }
+            .form-label {
+                margin-bottom: 8px !important;
+            }
+            .wave-img {
+                border: 3px solid transparent;
+                border-radius: 10px;
+                transition: border-color 0.2s, box-shadow 0.2s;
+                cursor: pointer;
+            }
+            .wave-img.selected {
+                border-color: #a38f84;
+                box-shadow: 0 0 10px #a38f8444;
+            }
+            .wave-label {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 200px;
+                min-width: 40px;
+                font-size: 1.5em;
+                font-weight: bold;
+                color: #a38f84;
+            }
+            .form-group {
+                margin-bottom: 20px;
+            }
+            .form-group label {
+                display: block;
+                margin-bottom: 8px;
+                font-weight: 600;
+                color: #333;
+            }
+            .form-group input,
+            .form-group textarea,
+            .form-group select {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                font-family: 'Roboto', sans-serif;
+                font-size: 14px;
+                box-sizing: border-box;
+            }
+            .form-group textarea {
+                min-height: 100px;
+                resize: vertical;
+            }
+            .form-group input:focus,
+            .form-group textarea:focus,
+            .form-group select:focus {
+                outline: none;
+                border-color: #a38f84;
+                box-shadow: 0 0 5px rgba(163, 143, 132, 0.3);
+            }
+            .submit-btn {
+                background-color: #a38f84;
+                color: white;
+                padding: 12px 30px;
+                border: none;
+                border-radius: 4px;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+            .submit-btn:hover {
+                background-color: #8b7668;
+            }
+            .submit-btn:disabled {
+                background-color: #ccc;
+                cursor: not-allowed;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Navigation -->
+        <section class="mbr-navbar mbr-navbar--freeze mbr-navbar--absolute mbr-navbar--sticky mbr-navbar--auto-collapse" id="ext_menu-24" data-rv-view="15">
+            <div class="mbr-navbar__section mbr-section">
+                <div class="mbr-section__container container">
+                    <div class="mbr-navbar__container">
+                        <div class="mbr-navbar__hamburger mbr-hamburger"><span class="mbr-hamburger__line"></span></div>
+                        <div class="mbr-navbar__column mbr-navbar__menu">
+                            <nav class="mbr-navbar__menu-box mbr-navbar__menu-box--inline-right">
+                                <div class="mbr-navbar__column">
+                                    <ul class="mbr-navbar__items mbr-navbar__items--right float-left mbr-buttons mbr-buttons--freeze mbr-buttons--right btn-decorator mbr-buttons--active mbr-buttons--only-links">
+                                        <li class="mbr-navbar__item">
+                                            <a class="mbr-buttons__link btn text-black" href="index.html">HOME</a>
+                                        </li>
+                                        <li class="mbr-navbar__item dropdown">
+                                            <a class="mbr-buttons__link btn text-black dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" aria-haspopup="true">CURSOS <span class="caret"></span></a>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="clases.html">ACÚSTICA MUSICAL</a></li>
+                                                <li><a href="#">OTROS</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="mbr-navbar__item">
+                                            <a class="mbr-buttons__link btn text-black" href="publications.html">PUBLICATIONS</a>
+                                        </li>
+                                        <li class="mbr-navbar__item">
+                                            <a class="mbr-buttons__link btn text-black" href="teaching.html">TEACHING</a>
+                                        </li>
+                                        <li class="mbr-navbar__item">
+                                            <a class="mbr-buttons__link btn text-black" href="students.html">STUDENTS</a>
+                                        </li>
+                                        <li class="mbr-navbar__item">
+                                            <a class="mbr-buttons__link btn text-black" href="workshops-tutorials.html">WORKSHOPS/TUTORIALS</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hero Section / Title -->
+        <section class="mbr-section mbr-section--relative mbr-after-navbar" id="msg-box4-16" data-rv-view="2" style="background-color: rgb(163, 143, 132); padding-top: 60px; padding-bottom: 60px;">
+            <div class="mbr-section__container container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="mbr-header mbr-header--center mbr-header--wysiwyg" style="margin-bottom: 0;">
+                            <h1 class="mbr-header__text" style="font-size: 3.5rem; color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">Trabajo Práctico</h1>
+                            <p style="color: white; font-size: 1.3em; margin-top: 15px;">Comparación de Ondas Sinusoidales</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Instructions Section -->
+        <section class="mbr-section mbr-section--relative" style="background-color: rgb(255, 255, 255); padding-top: 60px; padding-bottom: 40px;">
+            <div class="mbr-section__container container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="mbr-header mbr-header--center mbr-header--wysiwyg">
+                            <h3 class="mbr-header__text">Actividades</h3>
+                        </div>
+                        <div class="mbr-article mbr-article--auto-align mbr-article--wysiwyg">
+                            <p style="margin-top: 20px;">
+                                En este trabajo práctico vas a observar <strong>ondas sinusoidales</strong> con distintas <strong>frecuencias</strong> e <strong>intensidades</strong>. Tu tarea es:<br>
+                                <br>
+                                1. <strong>Observar las imágenes</strong> de las ondas<br>
+                                2. <strong>Comparar sus características</strong> físicas<br>
+                                3. <strong>Responder las preguntas</strong> sobre cuál tiene mayor frecuencia, mayor intensidad, etc.<br>
+                                <br>
+                                <em>Recuerda: La frecuencia está relacionada con la <strong>altura</strong> de la onda (más ciclos por segundo), y la intensidad está relacionada con la <strong>amplitud</strong> (más alta o baja la onda).</em>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Form Section -->
+        <section class="mbr-section mbr-section--relative" style="background-color: rgb(255, 255, 255); padding-top: 40px; padding-bottom: 60px;">
+            <div class="mbr-section__container container">
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2">
+                        <div id="resultsSummary" class="results-summary" style="display:none; background-color:#f9f9f9; padding:20px; border-radius:8px; margin-bottom:30px; border:2px solid #a38f84;">
+                          <div class="results-title" style="font-size:20px; font-weight:600; color:#333; margin-bottom:15px;">Resultados de tu evaluación:</div>
+                          <div id="resultsList" style="max-height: 500px; overflow-y: auto; margin-bottom: 15px;"></div>
+                          <div class="score-display" id="scoreDisplay" style="font-size:18px; font-weight:600; margin-top:15px; padding-top:15px; border-top:2px solid #a38f84; color:#333;"></div>
+                        </div>
+                        <form id="cuestionario" class="tp-form-container">
+                            <h4 style="margin-bottom: 20px; color: #333; border-bottom: 2px solid #a38f84; padding-bottom: 10px;">Datos Personales</h4>
+                            <div class="form-group">
+                                <label for="nombre">Nombre Completo *</label>
+                                <input type="text" id="nombre" name="nombre" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="carrera">Carrera *</label>
+                                <select id="carrera" name="carrera" required>
+                                    <option value="">Seleccione una opción</option>
+                                    <option value="ESM Instrumentos">Prof. Ed. Sup de Música con Orientación Instrumentos - ESM 6003</option>
+                                    <option value="ESM Educación Musical">Prof. Ed. Sup de Música con Orientación Educación Musical - ESM 6003</option>
+                                    <option value="UCASAL">Lic. En Artes Musicales - UCASAL</option>
+                                    <option value="Otrx">De paso</option>
+                                </select>
+                            </div>
+                            <hr>
+                            <h4 style="margin-bottom: 20px; color: #333; border-bottom: 2px solid #a38f84; padding-bottom: 10px;">Comparación de señales</h4>
+                            <div id="preguntas-dinamicas"></div>
+                                                        <button type="submit" class="btn btn-primary">Enviar respuestas</button>
+                                                    </form>
+                                                <!-- El bloque de resultados ahora está arriba del formulario -->
+        <script src="scripts/jquery.min.js"></script>
+        <script src="scripts/bootstrap.min.js"></script>
+        <script src="scripts/script.js"></script>
+        <script>
+                    // URL del Web App de Google Sheets (actualizada)
+                    const scriptURL = 'https://script.google.com/macros/s/AKfycbzoJNTci1H73v-2H4SQGdqEoGkArEZCBagiMo45sFwAkQ9OEiYMmN4cCWhC6uqhVFsj1g/exec';
+
+                // Mostrar resultados al enviar
+                $(document).on('submit', '#cuestionario', function(e) {
+                    e.preventDefault();
+                    let total = 0;
+                    let correctas = 0;
+                    let resultados = [];
+                    let preguntaId = 1;
+                    preguntas.forEach(pregunta => {
+                        if (pregunta.tipo === 'calculo_frecuencia') {
+                            const opciones = pregunta.opciones;
+                            opciones.forEach(op => {
+                                const val = $(`input[name='preg${preguntaId}']:checked`).val();
+                                total++;
+                                let esCorrecta = val === op.correcta;
+                                if (esCorrecta) correctas++;
+                                resultados.push({texto: pregunta.texto, img: op.img, respuesta: val, correcta: op.correcta, esCorrecta});
+                                preguntaId++;
+                            });
+                        } else {
+                            const pares = pregunta.pares;
+                            pares.forEach(par => {
+                                const val = $(`input[name='preg${preguntaId}']:checked`).val();
+                                total++;
+                                let esCorrecta = val === par.correcta;
+                                if (esCorrecta) correctas++;
+                                resultados.push({texto: pregunta.texto, imgA: par.a, imgB: par.b, respuesta: val, correcta: par.correcta, esCorrecta});
+                                preguntaId++;
+                            });
+                        }
+                    });
+                    // Enviar a Google Sheets usando FormData para evitar CORS preflight
+                    const formData = new FormData();
+                    formData.append('sheetName', 'MAS');
+                    formData.append('nombre', $('#nombre').val());
+                    formData.append('email', $('#email').val());
+                    formData.append('carrera_corta', $('#carrera').val());
+                    formData.append('total_correctas', correctas);
+                    resultados.forEach((result, idx) => {
+                        formData.append(`P${idx+1}`, result.esCorrecta ? 1 : 0);
+                    });
+                    fetch(scriptURL, {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(() => {
+                        // Opcional: mostrar mensaje de éxito
+                    })
+                    .catch(error => {
+                        console.error('Error al enviar a Google Sheets:', error);
+                    });
+                    let html = `<div style='font-size:1.1em;'><b>Respuestas correctas:</b> ${correctas} de ${total}</div><hr>`;
+                    resultados.forEach((r, idx) => {
+                        html += `<div style='margin-bottom:12px;'>
+                            <div style='font-weight:600; color:#a38f84;'>${idx+1}. ${r.texto}</div>`;
+                        if (r.img) {
+                            html += `<img src='${r.img}' style='max-width:120px; margin:8px 0;'>`;
+                        } else {
+                            html += `<div style='display:flex; gap:8px; margin:8px 0;'>
+                                <img src='${r.imgA}' style='max-width:80px;'> <img src='${r.imgB}' style='max-width:80px;'>
+                            </div>`;
+                        }
+                        html += `<div>Tu respuesta: <b>${r.respuesta || '(sin respuesta)'}</b> ${r.esCorrecta ? '<span style="color:green">(Correcta)</span>' : `<span style="color:red">(Incorrecta, correcta: <b>${r.correcta}</b>)</span>`}</div>`;
+                        html += `</div>`;
+                    });
+                    $('#resultsList').html(html);
+                    const percentage = Math.round((correctas / total) * 100);
+                    $('#scoreDisplay').html(`<strong>Puntuación: ${correctas}/${total} (${percentage}%)</strong>`);
+                    $('#resultsSummary').show();
+                    $('html, body').animate({ scrollTop: $('#resultsSummary').offset().top - 100 }, 600);
+                });
+        // Configuración de preguntas y pares de imágenes
+        const preguntas = [
+            {tipo: 'intensidad', texto: 'Seleccione la sinusoide que tiene mayor intensidad', pares: [
+                {a: 'images/sin_100Hz_8A.png', b: 'images/sin_100Hz_5A.png', correcta: 'A'},
+                {a: 'images/sin_150Hz_5A.png', b: 'images/sin_150Hz_7A.png', correcta: 'B'},
+                // ...agregar más pares aquí
+            ]},
+            {tipo: 'menor_intensidad', texto: 'Seleccione la sinusoide que tiene menor intensidad', pares: [
+                {a: 'images/sin_150Hz_7A.png', b: 'images/sin_200Hz_2A.png', correcta: 'B'},
+                {a: 'images/sin_100Hz_5A.png', b: 'images/sin_100Hz_8A.png', correcta: 'A'},
+                // ...agregar más pares aquí
+            ]},
+            {tipo: 'frecuencia', texto: 'Seleccione la sinusoide que tiene mayor frecuencia', pares: [
+                {a: 'images/sin_20Hz_5A.png', b: 'images/sin_25Hz_5A.png', correcta: 'B'},
+                {a: 'images/sin_200Hz_8A.png', b: 'images/sin_100Hz_5A.png', correcta: 'A'},
+                // ...agregar más pares aquí
+            ]},
+            {tipo: 'frecuencia', texto: 'Seleccione la sinusoide que tiene mayor frecuencia', pares: [
+                {a: 'images/sin_20Hz_5A.png', b: 'images/sin_25Hz_5A.png', correcta: 'B'},
+                {a: 'images/sin_200Hz_8A.png', b: 'images/sin_150Hz_7A.png', correcta: 'A'},
+                // ...agregar más pares aquí
+            ]},
+            {tipo: 'menor_frecuencia', texto: 'Seleccione la sinusoide que tiene menor frecuencia', pares: [
+                {a: 'images/sin_200Hz_8A.png', b: 'images/sin_100Hz_5A.png', correcta: 'B'},
+                {a: 'images/sin_20Hz_5A.png', b: 'images/sin_25Hz_5A.png', correcta: 'A'},
+                // ...agregar más pares aquí
+            ]},
+            {tipo: 'calculo_frecuencia', texto: 'Considerando la duración de cada ciclo ¿Cuál es la frecuencia de la siguiente señal?', opciones: [
+                {img: 'images/sin_20Hz_5A.png', opciones: ['20 Hz', '50 Hz', '100 Hz'], correcta: '20 Hz'},
+                {img: 'images/sin_100Hz_5A.png', opciones: ['50 Hz', '100 Hz', '200 Hz'], correcta: '100 Hz'},
+                // ...agregar más señales aquí
+            ]}
+        ];
+
+        // Aleatorizar preguntas y pares
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function renderCuestionario() {
+            let html = '';
+            let preguntaId = 1;
+            preguntas.forEach(pregunta => {
+                if (pregunta.tipo === 'calculo_frecuencia') {
+                    const opcionesAleatorias = shuffle([...pregunta.opciones]);
+                    opcionesAleatorias.forEach(op => {
+                        html += `<div class="mb-3 tp-form-container" style="background:none; box-shadow:none; border-radius:0; padding:0;">
+                            <label class="form-label">${pregunta.texto}:</label>
+                            <div class="wave-pair">
+                                <div class="wave-option" style="justify-content:center;">
+                                    <img src="${op.img}" alt="Señal" class="img-fluid wave-img" style="max-height:200px;">
+                                </div>
+                                <div class="wave-option" style="justify-content:center;">
+                                    ${op.opciones.map(opt => `
+                                        <label style="margin: 0 10px; display:inline-flex; align-items:center;">
+                                            <input type="radio" name="preg${preguntaId}" value="${opt}" style="display:none;">
+                                            <span class="btn btn-outline-secondary wave-freq">${opt}</span>
+                                        </label>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>`;
+                        preguntaId++;
+                    });
+                } else {
+                    const paresAleatorios = shuffle([...pregunta.pares]);
+                    paresAleatorios.forEach(par => {
+                        html += `<div class="mb-3 tp-form-container" style="background:none; box-shadow:none; border-radius:0; padding:0;">
+                            <label class="form-label">${pregunta.texto}:</label>
+                            <div class="wave-pair">
+                                <div class="wave-option">
+                                    <label style="width:100%; display: flex; align-items: center;">
+                                        <span class="wave-label">A</span>
+                                        <input type="radio" name="preg${preguntaId}" value="A" style="display:none;">
+                                        <img src="${par.a}" alt="A" class="img-fluid wave-img" style="max-height:200px;">
+                                    </label>
+                                </div>
+                                <div class="wave-option">
+                                    <label style="width:100%; display: flex; align-items: center;">
+                                        <span class="wave-label">B</span>
+                                        <input type="radio" name="preg${preguntaId}" value="B" style="display:none;">
+                                        <img src="${par.b}" alt="B" class="img-fluid wave-img" style="max-height:200px;">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>`;
+                        preguntaId++;
+                    });
+                }
+            });
+            $("#preguntas-dinamicas").html(html);
+        }
+
+        $(document).ready(function() {
+            renderCuestionario();
+        });
+        </script>
+    </body>
+</html>
