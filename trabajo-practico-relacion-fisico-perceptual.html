@@ -201,6 +201,28 @@
         border-top: 2px solid #a38f84;
         color: #333;
       }
+      .results-actions {
+        margin-top: 15px;
+        text-align: right;
+      }
+      .download-btn {
+        background-color: #3f6e8f;
+        color: white;
+        padding: 10px 18px;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      .download-btn:hover {
+        background-color: #345d79;
+      }
+      .download-btn:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
       .group-section {
         background-color: #f0f0f0;
         padding: 20px;
@@ -321,6 +343,9 @@
               <div class="results-title">Resultados de tu evaluación:</div>
               <div id="resultsList" style="max-height: 500px; overflow-y: auto; margin-bottom: 15px;"></div>
               <div class="score-display" id="scoreDisplay"></div>
+              <div class="results-actions">
+                <button type="button" class="download-btn" id="downloadResultsBtn" onclick="downloadResultsPDF()" disabled>Descargar resultados (PDF)</button>
+              </div>
             </div>
 
             <form id="tpForm" class="tp-form-container" data-sheet-name="Relacion Fisico Perceptual">
@@ -374,12 +399,15 @@
     <script src="scripts/jquery.min.js"></script>
     <script src="scripts/bootstrap.min.js"></script>
     <script src="scripts/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <script>
       const audioContext = new (window.AudioContext || window.webkitAudioContext)();
       let currentOscillators = [];
       let currentGains = [];
       let stimuliOrder = {}; // Store which stim is A, B, C for each exercise
+      let latestResults = [];
+      let latestScore = { correct: 0, total: 0 };
 
       // Define base configs with metadata
       const baseConfigs = {
@@ -476,19 +504,32 @@
       };
 
       const correctAnswers = {
-        ex1: 'B', ex2: 'B', ex3: 'B', ex4: 'B', ex5: 'B', 
-        ex6: 'A', ex7: 'A', ex8: 'B', ex9: 'A', ex10: 'B',
+        ex1: 'max_freq', ex2: 'min_freq', ex3: 'max_freq', ex4: 'min_freq', ex5: 'max_freq',
+        ex6: 'min_int', ex7: 'max_int', ex8: 'min_freq', ex9: 'max_int', ex10: 'min_int',
         ex11: 'max_freq', ex11b: 'min_freq', 
         ex12: 'max_int', ex12b: 'min_int', 
-        ex13: 'max_freq', ex13b: 'min_freq', 
-        ex14: 'max_int', ex14b: 'min_int', 
+        ex13: 'min_freq', ex13b: 'max_freq', 
+        ex14: 'min_int', ex14b: 'max_int', 
         ex15: 'max_freq', ex15b: 'min_freq', 
-        ex16: 'max_int', ex16b: 'min_int', 
-        ex17: 'max_freq', ex17b: 'min_freq', 
-        ex18: 'max_int', ex18b: 'min_int', 
+        ex16: 'iguales', ex16b: 'iguales', 
+        ex17: 'iguales', ex17b: 'iguales', 
+        ex18: 'min_int', ex18b: 'max_int', 
         ex19: 'max_freq', ex19b: 'min_freq', 
-        ex20: 'max_int', ex20b: 'min_int'
+        ex20: 'min_int', ex20b: 'max_int'
       };
+
+      const questions3Meta = [
+        { id: 'ex11', type: 'freq', q1: 'MAYOR', q2: 'MENOR' },
+        { id: 'ex12', type: 'int', q1: 'MAYOR', q2: 'MENOR' },
+        { id: 'ex13', type: 'freq', q1: 'MENOR', q2: 'MAYOR' },
+        { id: 'ex14', type: 'int', q1: 'MENOR', q2: 'MAYOR' },
+        { id: 'ex15', type: 'freq', q1: 'MAYOR', q2: 'MENOR' },
+        { id: 'ex16', type: 'int', q1: 'MAYOR', q2: 'MENOR' },
+        { id: 'ex17', type: 'freq', q1: 'MENOR', q2: 'MAYOR' },
+        { id: 'ex18', type: 'int', q1: 'MENOR', q2: 'MAYOR' },
+        { id: 'ex19', type: 'freq', q1: 'MAYOR', q2: 'MENOR' },
+        { id: 'ex20', type: 'int', q1: 'MENOR', q2: 'MAYOR' }
+      ];
 
       // Shuffle array
       function shuffle(array) {
@@ -580,20 +621,7 @@
         }
 
         // Exercises 11-20 (3 tones)
-        const questions3 = [
-          { id: 'ex11', type: 'freq', q1: 'MAYOR', q2: 'MENOR' },
-          { id: 'ex12', type: 'int', q1: 'MAYOR', q2: 'MENOR' },
-          { id: 'ex13', type: 'freq', q1: 'MENOR', q2: 'MAYOR' },
-          { id: 'ex14', type: 'int', q1: 'MENOR', q2: 'MAYOR' },
-          { id: 'ex15', type: 'freq', q1: 'MAYOR', q2: 'MENOR' },
-          { id: 'ex16', type: 'int', q1: 'MAYOR', q2: 'MENOR' },
-          { id: 'ex17', type: 'freq', q1: 'MENOR', q2: 'MAYOR' },
-          { id: 'ex18', type: 'int', q1: 'MENOR', q2: 'MAYOR' },
-          { id: 'ex19', type: 'freq', q1: 'MAYOR', q2: 'MENOR' },
-          { id: 'ex20', type: 'int', q1: 'MENOR', q2: 'MAYOR' }
-        ];
-
-        questions3.forEach((q, idx) => {
+        questions3Meta.forEach((q, idx) => {
           const exNum = idx + 11;
           const attrName = q.type === 'freq' ? 'frecuencia' : 'intensidad';
           getRandomOrder(q.id);
@@ -631,6 +659,25 @@
         document.getElementById('exercises-3tones').innerHTML = html3tones;
       }
 
+      function getQuestionText(questionId) {
+        const baseId = questionId.replace('b', '');
+        const exNum = parseInt(baseId.replace('ex', ''), 10);
+
+        if (exNum >= 1 && exNum <= 10) {
+          const isMayor = exNum % 2 === 1;
+          const questionWord = isMayor ? 'MAYOR' : 'MENOR';
+          const attrType = exNum <= 5 || exNum === 8 ? 'frecuencia' : 'intensidad';
+          return `¿Cuál tiene ${questionWord} ${attrType}?`;
+        }
+
+        const meta = questions3Meta.find(q => q.id === baseId);
+        if (!meta) return '';
+
+        const questionWord = questionId.endsWith('b') ? meta.q2 : meta.q1;
+        const attrType = meta.type === 'freq' ? 'frecuencia' : 'intensidad';
+        return `¿Cuál tiene ${questionWord} ${attrType}?`;
+      }
+
       function getCorrectAnswer(exerciseId) {
         const baseId = exerciseId.replace('b', '');
         if (exerciseId.endsWith('b')) {
@@ -648,6 +695,8 @@
           } else if (correctAnswers[exerciseId] === 'min_int') {
             const minInt = Math.min(...configs.map(c => c.amplitude));
             return Object.entries(stimuliOrder[baseId]).find(([_, idx]) => configs[idx].amplitude === minInt)[0];
+          } else if (correctAnswers[exerciseId] === 'iguales') {
+            return 'iguales';
           }
         } else {
           // First question
@@ -722,12 +771,16 @@
 
           results.push({
             exercise: questionId,
+            questionText: getQuestionText(questionId),
             isCorrect: isCorrect,
             userAnswer: selected.value,
             correctAnswer: correctAnswer,
             stimuli: stimuliInfo
           });
         }
+
+        latestResults = results;
+        latestScore = { correct, total };
 
         displayResults(results, correct, total);
         submitToSheet(results, correct, total);
@@ -740,12 +793,12 @@
         results.forEach((result) => {
           const resultDiv = document.createElement('div');
           resultDiv.className = `result-item ${result.isCorrect ? 'result-correct' : 'result-incorrect'}`;
-          const baseId = result.exercise.replace('b', '');
           const displayName = result.exercise.endsWith('b') ? result.exercise.slice(0, -1) + ' (2)' : result.exercise + ' (1)';
           
           resultDiv.innerHTML = `
             <strong>${displayName}:</strong> ${result.isCorrect ? '✓' : '✗'} 
             (Tu respuesta: <strong>${result.userAnswer}</strong>${!result.isCorrect ? `, Correcta: <strong>${result.correctAnswer}</strong>` : ''})
+            <div><strong>Pregunta:</strong> ${result.questionText}</div>
             <div class="stimuli-values">
               <strong>Valores de los estímulos:</strong><br>
               ${result.stimuli.join('<br>')}
@@ -756,8 +809,85 @@
 
         const percentage = Math.round((correct / total) * 100);
         document.getElementById('scoreDisplay').innerHTML = `<strong>Puntuación: ${correct}/${total} (${percentage}%)</strong>`;
+        document.getElementById('downloadResultsBtn').disabled = results.length === 0;
         document.getElementById('resultsSummary').style.display = 'block';
         window.scrollTo({ top: document.getElementById('resultsSummary').offsetTop - 100, behavior: 'smooth' });
+      }
+
+      function downloadResultsPDF() {
+        if (!latestResults.length) {
+          alert('Primero completá y enviá el formulario para generar resultados.');
+          return;
+        }
+
+        if (!window.jspdf || !window.jspdf.jsPDF) {
+          alert('No se pudo cargar la librería de PDF. Revisá tu conexión e intentá nuevamente.');
+          return;
+        }
+
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+
+        const nombre = document.getElementById('nombre').value || '';
+        const email = document.getElementById('email').value || '';
+        const carrera = document.getElementById('carrera').value || '';
+        const percentage = latestScore.total > 0 ? Math.round((latestScore.correct / latestScore.total) * 100) : 0;
+        const scoreText = `${latestScore.correct}/${latestScore.total} (${percentage}%)`;
+        const dateStamp = new Date().toISOString().slice(0, 10);
+
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+        const margin = 14;
+        const maxTextWidth = pageWidth - margin * 2;
+        let y = margin;
+
+        function ensureSpace(linesNeeded, lineHeight) {
+          const needed = linesNeeded * lineHeight;
+          if (y + needed > pageHeight - margin) {
+            doc.addPage();
+            y = margin;
+          }
+        }
+
+        function writeLine(text, options = {}) {
+          const fontSize = options.fontSize || 10;
+          const isBold = !!options.bold;
+          const lineHeight = options.lineHeight || 5;
+
+          doc.setFont('helvetica', isBold ? 'bold' : 'normal');
+          doc.setFontSize(fontSize);
+
+          const lines = doc.splitTextToSize(text, maxTextWidth);
+          ensureSpace(lines.length, lineHeight);
+          doc.text(lines, margin, y);
+          y += lines.length * lineHeight;
+        }
+
+        writeLine('Trabajo Práctico - Relación Físico Perceptual', { fontSize: 14, bold: true, lineHeight: 6 });
+        y += 2;
+        writeLine(`Fecha: ${dateStamp}`);
+        writeLine(`Nombre: ${nombre}`);
+        writeLine(`Email: ${email}`);
+        writeLine(`Carrera: ${carrera}`);
+        writeLine(`Puntuación: ${scoreText}`, { bold: true });
+        y += 2;
+        writeLine('Detalle de resultados', { fontSize: 12, bold: true, lineHeight: 6 });
+        y += 1;
+
+        latestResults.forEach((result, index) => {
+          const title = result.exercise.endsWith('b') ? result.exercise.slice(0, -1) + ' (2)' : result.exercise + ' (1)';
+          const status = result.isCorrect ? 'Correcta' : 'Incorrecta';
+          const stimuliText = result.stimuli.join(' | ');
+
+          writeLine(`${index + 1}. ${title} - ${status}`, { bold: true });
+          writeLine(`Pregunta: ${result.questionText}`);
+          writeLine(`Tu respuesta: ${result.userAnswer}`);
+          writeLine(`Respuesta correcta: ${result.correctAnswer}`);
+          writeLine(`Valores de estímulos: ${stimuliText}`);
+          y += 2;
+        });
+
+        doc.save(`resultados_tp_relacion_fisico_perceptual_${dateStamp}.pdf`);
       }
 
       function submitToSheet(results, correct, total) {
